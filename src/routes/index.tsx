@@ -136,6 +136,7 @@ function Index() {
       {/* MAIN */}
       <main className="flex-1 bg-white overflow-y-auto p-6">
         {activeVertical === "museums" && <MuseumsGalleriesPOS addToCart={addToCart} />}
+        {activeVertical === "escaperooms" && <EscapeRoomsPOS addToCart={addToCart} />}
       </main>
 
       {/* CART */}
