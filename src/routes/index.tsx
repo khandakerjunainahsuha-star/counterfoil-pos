@@ -21,6 +21,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { MuseumsGalleriesPOS } from "@/components/MuseumsGalleriesPOS";
+import { EscapeRoomsPOS } from "@/components/EscapeRoomsPOS";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -92,6 +93,7 @@ function Index() {
             onChange={(e) => setActiveVertical(e.target.value)}
           >
             <option value="museums">01 · Museums & Galleries</option>
+            <option value="escaperooms">07 · Escape Rooms</option>
           </select>
         </div>
 
@@ -134,6 +136,7 @@ function Index() {
       {/* MAIN */}
       <main className="flex-1 bg-white overflow-y-auto p-6">
         {activeVertical === "museums" && <MuseumsGalleriesPOS addToCart={addToCart} />}
+        {activeVertical === "escaperooms" && <EscapeRoomsPOS addToCart={addToCart} />}
       </main>
 
       {/* CART */}
