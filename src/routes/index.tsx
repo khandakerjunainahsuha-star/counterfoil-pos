@@ -93,6 +93,7 @@ function Index() {
             onChange={(e) => setActiveVertical(e.target.value)}
           >
             <option value="museums">01 · Museums & Galleries</option>
+            <option value="escaperooms">07 · Escape Rooms</option>
           </select>
         </div>
 
