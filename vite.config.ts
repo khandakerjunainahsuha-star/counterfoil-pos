@@ -6,8 +6,8 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-// Allow overriding the nitro deploy preset via env (e.g. NITRO_PRESET=vercel for Vercel deploys).
-const nitroPreset = process.env.NITRO_PRESET;
+// Allow overriding the nitro deploy preset, and auto-target Vercel when building there.
+const nitroPreset = process.env.NITRO_PRESET ?? (process.env.VERCEL ? "vercel" : undefined);
 
 export default defineConfig({
   tanstackStart: {
