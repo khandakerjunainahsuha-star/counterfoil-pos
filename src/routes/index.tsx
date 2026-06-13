@@ -21,6 +21,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { MuseumsGalleriesPOS } from "@/components/MuseumsGalleriesPOS";
+import { EscapeRoomsPOS } from "@/components/EscapeRoomsPOS";
 
 export const Route = createFileRoute("/")({
   head: () => ({
