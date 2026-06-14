@@ -61,6 +61,7 @@ function Index() {
     { icon: ShoppingCart, label: "POS", active: true },
     { icon: Calendar, label: "Schedule" },
     { icon: BarChart2, label: "Sales" },
+    { icon: UserCheck, label: "Check In" },
   ];
 
 
