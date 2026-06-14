@@ -112,6 +112,7 @@ export function BowlingAlleysPOS({ addToCart }: { addToCart: AddToCartFn }) {
             <div
               key={l.id}
               onClick={() => {
+                setBlockedMsg(null);
                 setSelectedLane(l.id);
                 setStartTime(null);
               }}
