@@ -10,6 +10,7 @@ import {
   Wallet,
   Menu,
   X,
+  UserCheck,
 } from "lucide-react";
 import { MuseumsGalleriesPOS } from "@/components/MuseumsGalleriesPOS";
 import { EscapeRoomsPOS } from "@/components/EscapeRoomsPOS";
@@ -60,6 +61,7 @@ function Index() {
     { icon: ShoppingCart, label: "POS", active: true },
     { icon: Calendar, label: "Schedule" },
     { icon: BarChart2, label: "Sales" },
+    { icon: UserCheck, label: "Check In" },
   ];
 
 
@@ -156,7 +158,7 @@ function Index() {
       </aside>
 
       {/* MAIN */}
-      <main className="flex-1 bg-white overflow-y-auto p-4 sm:p-6 pt-[72px] lg:pt-6">
+      <main className="flex-1 bg-white overflow-y-auto p-4 sm:p-6 pt-[72px] pb-[88px] lg:pt-6 lg:pb-6">
         {activeVertical === "museums" && <MuseumsGalleriesPOS addToCart={addToCart} />}
         {activeVertical === "escaperooms" && <EscapeRoomsPOS addToCart={addToCart} />}
         {activeVertical === "cinemas" && <CinemasPOS addToCart={addToCart} />}
@@ -312,6 +314,24 @@ function Index() {
           </button>
         </div>
       </aside>
+
+      {/* MOBILE BOTTOM NAV */}
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white border-t border-gray-200 grid grid-cols-4 h-[72px] pb-[env(safe-area-inset-bottom)]">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <button
+              key={item.label}
+              className={`flex flex-col items-center justify-center gap-1 text-[11px] ${
+                item.active ? "text-violet-600 font-medium" : "text-gray-500"
+              }`}
+            >
+              <Icon size={20} />
+              {item.label}
+            </button>
+          );
+        })}
+      </nav>
     </div>
   );
 }
