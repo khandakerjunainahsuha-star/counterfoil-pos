@@ -18,7 +18,7 @@ import { CinemasPOS } from "@/components/CinemasPOS";
 import { TheatresPOS } from "@/components/TheatresPOS";
 import { BaseballPOS } from "@/components/BaseballPOS";
 import { AmusementParksPOS } from "@/components/AmusementParksPOS";
-import { BowlingPOS } from "@/components/BowlingPOS";
+import { BowlingAlleysPOS } from "@/components/BowlingAlleysPOS";
 import { WaterParksPOS } from "@/components/WaterParksPOS";
 import { LaserTagPOS } from "@/components/LaserTagPOS";
 import { ZoosPOS } from "@/components/ZoosPOS";
@@ -181,7 +181,7 @@ function Index() {
         {activeVertical === "theatres" && <TheatresPOS addToCart={addToCart} />}
         {activeVertical === "amusement" && <AmusementParksPOS addToCart={addToCart} />}
         {activeVertical === "waterparks" && <WaterParksPOS addToCart={addToCart} />}
-        {activeVertical === "bowling" && <BowlingPOS addToCart={addToCart} />}
+        {activeVertical === "bowling" && <BowlingAlleysPOS addToCart={addToCart} />}
         {activeVertical === "lasertag" && <LaserTagPOS addToCart={addToCart} />}
         {activeVertical === "zoos" && <ZoosPOS addToCart={addToCart} />}
         {activeVertical === "heritage" && <HeritageSitesPOS addToCart={addToCart} />}
