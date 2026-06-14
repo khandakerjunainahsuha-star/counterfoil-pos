@@ -235,7 +235,13 @@ export function TheatresPOS({ addToCart }: { addToCart: AddToCartFn }) {
                               <div
                                 key={key}
                                 onClick={() => {
-                                  if (taken) return;
+                                  if (taken) {
+                                    showBlocked(
+                                      "This seat is unavailable — please select an open seat.",
+                                    );
+                                    return;
+                                  }
+                                  setBlockedMsg(null);
                                   setSelectedSeats((prev) =>
                                     prev.includes(key)
                                       ? prev.filter((s) => s !== key)
@@ -244,6 +250,7 @@ export function TheatresPOS({ addToCart }: { addToCart: AddToCartFn }) {
                                 }}
                                 className={`w-5 h-5 rounded-sm border m-0.5 cursor-pointer ${cls}`}
                               />
+
                             );
                           })}
                         </div>
