@@ -103,6 +103,11 @@ export function EscapeRoomsPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [groupSize, setGroupSize] = useState(0);
   const [addOns, setAddOns] = useState({ hints: false, photo: false, private: false });
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
 
   const room = roomsData.find((r) => r.id === selectedRoom);
   const addOnTotal = (addOns.hints ? 10 : 0) + (addOns.photo ? 25 : 0) + (addOns.private ? 40 : 0);
