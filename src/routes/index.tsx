@@ -166,6 +166,7 @@ function Index() {
         {activeVertical === "cinemas" && <CinemasPOS addToCart={addToCart} />}
         {activeVertical === "theatres" && <TheatresPOS addToCart={addToCart} />}
         {activeVertical === "amusement" && <AmusementParksPOS addToCart={addToCart} />}
+        {activeVertical === "waterparks" && <WaterParksPOS addToCart={addToCart} />}
         {activeVertical === "bowling" && <BowlingPOS addToCart={addToCart} />}
         {activeVertical === "baseball" && <BaseballPOS addToCart={addToCart} />}
       </main>
