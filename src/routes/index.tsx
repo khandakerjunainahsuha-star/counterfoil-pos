@@ -314,6 +314,24 @@ function Index() {
           </button>
         </div>
       </aside>
+
+      {/* MOBILE BOTTOM NAV */}
+      <nav className="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white border-t border-gray-200 grid grid-cols-4 h-[72px] pb-[env(safe-area-inset-bottom)]">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          return (
+            <button
+              key={item.label}
+              className={`flex flex-col items-center justify-center gap-1 text-[11px] ${
+                item.active ? "text-violet-600 font-medium" : "text-gray-500"
+              }`}
+            >
+              <Icon size={20} />
+              {item.label}
+            </button>
+          );
+        })}
+      </nav>
     </div>
   );
 }
