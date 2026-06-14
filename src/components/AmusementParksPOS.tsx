@@ -90,6 +90,11 @@ export function AmusementParksPOS({ addToCart }: { addToCart: AddToCartFn }) {
     senior: 0,
   });
   const [fastpass, setFastpass] = useState({ thunder: false, galaxy: false, splash: false });
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
 
   const tier = tiers.find((t) => t.id === selectedTier) ?? null;
   const dateObj = dates.find((d) => d.d === selectedDate) ?? null;
