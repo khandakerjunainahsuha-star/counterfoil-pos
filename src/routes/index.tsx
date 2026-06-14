@@ -121,6 +121,7 @@ function Index() {
             onChange={(e) => setActiveVertical(e.target.value)}
           >
             <option value="museums">01 · Museums & Galleries</option>
+            <option value="cinemas">02 · Cinemas</option>
             <option value="escaperooms">07 · Escape Rooms</option>
           </select>
         </div>
@@ -150,6 +151,7 @@ function Index() {
       <main className="flex-1 bg-white overflow-y-auto p-4 sm:p-6 pt-[72px] lg:pt-6">
         {activeVertical === "museums" && <MuseumsGalleriesPOS addToCart={addToCart} />}
         {activeVertical === "escaperooms" && <EscapeRoomsPOS addToCart={addToCart} />}
+        {activeVertical === "cinemas" && <CinemasPOS addToCart={addToCart} />}
       </main>
 
       {/* CART */}
