@@ -23,6 +23,7 @@ import { WaterParksPOS } from "@/components/WaterParksPOS";
 import { LaserTagPOS } from "@/components/LaserTagPOS";
 import { ZoosPOS } from "@/components/ZoosPOS";
 import { HeritageSitesPOS } from "@/components/HeritageSitesPOS";
+import { CruisesPOS } from "@/components/CruisesPOS";
 import counterfoilLogo from "@/assets/counterfoil-logo.png";
 
 export const Route = createFileRoute("/")({
@@ -139,6 +140,7 @@ function Index() {
             <option value="lasertag">09 · Laser Tag / Arcades</option>
             <option value="zoos">10 · Zoos & Wildlife Parks</option>
             <option value="heritage">11 · Heritage Sites & Gardens</option>
+            <option value="cruises">12 · Cruises & Ferries</option>
             <option value="baseball">31 · Baseball Training Facilities</option>
             <option value="escaperooms">07 · Escape Rooms</option>
           </select>
@@ -177,6 +179,7 @@ function Index() {
         {activeVertical === "lasertag" && <LaserTagPOS addToCart={addToCart} />}
         {activeVertical === "zoos" && <ZoosPOS addToCart={addToCart} />}
         {activeVertical === "heritage" && <HeritageSitesPOS addToCart={addToCart} />}
+        {activeVertical === "cruises" && <CruisesPOS addToCart={addToCart} />}
         {activeVertical === "baseball" && <BaseballPOS addToCart={addToCart} />}
       </main>
 
