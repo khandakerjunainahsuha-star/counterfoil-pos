@@ -48,6 +48,8 @@ type CartItem = {
   date: string;
   time: string;
   qty: number;
+  therapistId?: string;
+  timeMin?: number;
 };
 
 function Index() {
