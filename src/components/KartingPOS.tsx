@@ -95,6 +95,11 @@ export function KartingPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const [groupSize, setGroupSize] = useState(1);
   const [waiverChecked, setWaiverChecked] = useState(false);
   const [addOns, setAddOns] = useState({ timing: false, photo: false, overalls: false });
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
 
   const reset = () => {
     setSelectedActivity(null);
