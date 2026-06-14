@@ -24,6 +24,7 @@ import { LaserTagPOS } from "@/components/LaserTagPOS";
 import { ZoosPOS } from "@/components/ZoosPOS";
 import { HeritageSitesPOS } from "@/components/HeritageSitesPOS";
 import { CruisesPOS } from "@/components/CruisesPOS";
+import { SpasPOS } from "@/components/SpasPOS";
 import counterfoilLogo from "@/assets/counterfoil-logo.png";
 
 export const Route = createFileRoute("/")({
