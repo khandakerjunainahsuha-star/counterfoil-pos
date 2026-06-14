@@ -131,6 +131,7 @@ function Index() {
             <option value="cinemas">02 · Cinemas</option>
             <option value="theatres">03 · Theatres & Performing Arts</option>
             <option value="amusement">04 · Amusement & Theme Parks</option>
+            <option value="waterparks">05 · Water Parks</option>
             <option value="bowling">08 · Bowling Alleys</option>
             <option value="baseball">31 · Baseball Training Facilities</option>
             <option value="escaperooms">07 · Escape Rooms</option>
