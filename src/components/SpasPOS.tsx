@@ -76,7 +76,7 @@ export function SpasPOS({
       (item) =>
         item.vertical === "Spas & Wellness" &&
         item.therapistId === therapistId &&
-        item.timeMin === timeMin,
+        Number(item.timeMin) === Number(timeMin),
     );
 
   const service = services.find((s) => s.id === selectedService) || null;
