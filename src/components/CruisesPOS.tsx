@@ -73,6 +73,11 @@ export function CruisesPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const [selectedTable, setSelectedTable] = useState<string | null>(null);
   const [guestCount, setGuestCount] = useState(2);
   const [gaQtys, setGaQtys] = useState<{ adult: number; child: number }>({ adult: 0, child: 0 });
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
 
   const reset = () => {
     setSelectedCruise(null);
