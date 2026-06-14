@@ -189,7 +189,12 @@ export function CoworkingPOS({ addToCart }: { addToCart: AddToCartFn }) {
                 {room.blocks.map((b, i) => (
                   <div
                     key={i}
-                    className="absolute top-0 bottom-0 bg-gray-400 flex items-center justify-center text-white text-xs"
+                    onClick={() =>
+                      showBlocked(
+                        "This time slot is already booked. Select a free section on the timeline.",
+                      )
+                    }
+                    className="absolute top-0 bottom-0 bg-gray-400 flex items-center justify-center text-white text-xs cursor-not-allowed"
                     style={{
                       left: `${((b.from - 8) / 12) * 100}%`,
                       width: `${((b.to - b.from) / 12) * 100}%`,
@@ -211,6 +216,8 @@ export function CoworkingPOS({ addToCart }: { addToCart: AddToCartFn }) {
                   <span key={t}>{t}</span>
                 ))}
               </div>
+              <BlockedNotice message={blockedMsg} onDismiss={() => setBlockedMsg(null)} />
+
 
               <div className="flex flex-wrap gap-4 items-center mt-3">
                 <div className="flex items-center gap-2">
