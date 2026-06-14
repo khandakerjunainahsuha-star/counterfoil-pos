@@ -200,10 +200,14 @@ export function CinemasPOS({ addToCart }: { addToCart: AddToCartFn }) {
                       </button>
                       <span className="text-sm font-medium w-6 text-center">{qty}</span>
                       <button
+                        disabled={
+                          totalQty >=
+                          (film.showtimes.find((s) => s.t === selectedShowtime)?.spots ?? 0)
+                        }
                         onClick={() =>
                           setTicketQtys((q) => ({ ...q, [tier.id]: qty + 1 }))
                         }
-                        className="w-6 h-6 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50 text-xs"
+                        className="w-6 h-6 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50 text-xs disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         +
                       </button>
