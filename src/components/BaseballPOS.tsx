@@ -161,6 +161,12 @@ export function BaseballPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const [selectedCamp, setSelectedCamp] = useState<string | null>(null);
   const [playerName, setPlayerName] = useState("");
   const [playerAge, setPlayerAge] = useState("");
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
+
 
   const freeCount = cagesData.filter((c) => c.free).length;
   const computedEnd = computeEnd(duration);
