@@ -26,6 +26,7 @@ import { HeritageSitesPOS } from "@/components/HeritageSitesPOS";
 import { CruisesPOS } from "@/components/CruisesPOS";
 import { SpasPOS } from "@/components/SpasPOS";
 import { CoworkingPOS } from "@/components/CoworkingPOS";
+import { KartingPOS } from "@/components/KartingPOS";
 import counterfoilLogo from "@/assets/counterfoil-logo.png";
 
 export const Route = createFileRoute("/")({
@@ -145,6 +146,7 @@ function Index() {
             <option value="cruises">12 · Cruises & Ferries</option>
             <option value="spas">13 · Spas & Wellness</option>
             <option value="coworking">14 · Co-working & Event Spaces</option>
+            <option value="karting">18 · Karting & Adventure Sports</option>
             <option value="baseball">31 · Baseball Training Facilities</option>
             <option value="escaperooms">07 · Escape Rooms</option>
           </select>
@@ -186,6 +188,7 @@ function Index() {
         {activeVertical === "cruises" && <CruisesPOS addToCart={addToCart} />}
         {activeVertical === "spas" && <SpasPOS addToCart={addToCart} />}
         {activeVertical === "coworking" && <CoworkingPOS addToCart={addToCart} />}
+        {activeVertical === "karting" && <KartingPOS addToCart={addToCart} />}
         {activeVertical === "baseball" && <BaseballPOS addToCart={addToCart} />}
       </main>
 
