@@ -111,7 +111,7 @@ export function CinemasPOS({ addToCart }: { addToCart: AddToCartFn }) {
       <h2 className="text-lg font-semibold text-gray-900 mb-4">Cinemas</h2>
 
       <div className="grid grid-cols-2 gap-3 mb-6">
-        {films.map((f) => {
+        {filmsData.map((f) => {
           const active = selectedFilm === f.id;
           return (
             <div
