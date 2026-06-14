@@ -84,11 +84,11 @@ export function CoworkingPOS({ addToCart }: { addToCart: AddToCartFn }) {
     setTimeout(() => setBlockedMsg(null), 3000);
   };
 
-  const room0 = rooms.find((r) => r.id === selectedRoom) || null;
   const overlapsBooking = (start: number, dur: number) => {
-    if (!room0) return false;
+    const r = rooms.find((rm) => rm.id === selectedRoom);
+    if (!r) return false;
     const end = start + dur;
-    return room0.blocks.some((b) => start < b.to && end > b.from);
+    return r.blocks.some((b) => start < b.to && end > b.from);
   };
   const tryDuration = (next: number) => {
     if (next > duration && overlapsBooking(startHour, next)) {
