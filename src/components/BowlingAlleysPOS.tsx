@@ -77,6 +77,18 @@ export function BowlingAlleysPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const span = CLOSE - OPEN;
 
   const changeDuration = (next: number) => {
+    if (
+      next > duration &&
+      startTime !== null &&
+      lane &&
+      !isStartValid(startTime, next)
+    ) {
+      showBlocked(
+        "Can't extend here — this time is already booked. Try a shorter duration or an earlier start time.",
+      );
+      return;
+    }
+    setBlockedMsg(null);
     setDuration(next);
     if (startTime !== null && !isStartValid(startTime, next)) setStartTime(null);
   };
