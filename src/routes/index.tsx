@@ -158,7 +158,7 @@ function Index() {
       </aside>
 
       {/* MAIN */}
-      <main className="flex-1 bg-white overflow-y-auto p-4 sm:p-6 pt-[72px] lg:pt-6">
+      <main className="flex-1 bg-white overflow-y-auto p-4 sm:p-6 pt-[72px] pb-[88px] lg:pt-6 lg:pb-6">
         {activeVertical === "museums" && <MuseumsGalleriesPOS addToCart={addToCart} />}
         {activeVertical === "escaperooms" && <EscapeRoomsPOS addToCart={addToCart} />}
         {activeVertical === "cinemas" && <CinemasPOS addToCart={addToCart} />}
