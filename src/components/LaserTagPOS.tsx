@@ -71,10 +71,13 @@ export function LaserTagPOS({ addToCart }: { addToCart: AddToCartFn }) {
           <div
             key={s.id}
             onClick={() => {
-              if (remaining > 0) {
-                setSelectedSession(s.id);
-                setGroupSize(1);
+              if (remaining === 0) {
+                showBlocked("This session is full. Please choose another available session below.");
+                return;
               }
+              setBlockedMsg(null);
+              setSelectedSession(s.id);
+              setGroupSize(1);
             }}
             className={`border rounded-xl p-4 mb-3 cursor-pointer ${cls}`}
           >
@@ -97,6 +100,8 @@ export function LaserTagPOS({ addToCart }: { addToCart: AddToCartFn }) {
           </div>
         );
       })}
+      <BlockedNotice message={blockedMsg} onDismiss={() => setBlockedMsg(null)} />
+
 
       {sess && (
         <div className="mt-6 border border-gray-200 rounded-xl p-4">
