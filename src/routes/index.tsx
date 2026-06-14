@@ -186,7 +186,7 @@ function Index() {
         {activeVertical === "zoos" && <ZoosPOS addToCart={addToCart} />}
         {activeVertical === "heritage" && <HeritageSitesPOS addToCart={addToCart} />}
         {activeVertical === "cruises" && <CruisesPOS addToCart={addToCart} />}
-        {activeVertical === "spas" && <SpasPOS addToCart={addToCart} />}
+        {activeVertical === "spas" && <SpasPOS addToCart={addToCart} cartItems={cartItems} />}
         {activeVertical === "coworking" && <CoworkingPOS addToCart={addToCart} />}
         {activeVertical === "karting" && <KartingPOS addToCart={addToCart} />}
         {activeVertical === "baseball" && <BaseballPOS addToCart={addToCart} />}
