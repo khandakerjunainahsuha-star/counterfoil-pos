@@ -247,7 +247,7 @@ export function CoworkingPOS({ addToCart }: { addToCart: AddToCartFn }) {
                   </button>
                   <span className="text-sm w-10 text-center">{duration} hr</span>
                   <button
-                    onClick={() => setDuration((v) => Math.min(6, v + 0.5))}
+                    onClick={() => tryDuration(Math.min(6, duration + 0.5))}
                     className="w-8 h-8 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50"
                   >
                     +
