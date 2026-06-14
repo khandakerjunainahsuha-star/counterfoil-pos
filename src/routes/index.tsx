@@ -69,7 +69,7 @@ function Index() {
         >
           <Menu size={20} />
         </button>
-        <img src={counterfoilLogo} alt="Counterfoil" className="h-5 w-auto" />
+        <img src={counterfoilLogo} alt="Counterfoil" className="h-8 w-auto" />
         <button
           onClick={() => setCartOpen(true)}
           className="p-2 -mr-2 rounded-md hover:bg-gray-100 relative"
@@ -102,7 +102,7 @@ function Index() {
         } lg:translate-x-0`}
       >
         <div className="p-4 border-b border-gray-200 bg-white flex items-center justify-between">
-          <img src={counterfoilLogo} alt="Counterfoil" className="h-6 w-auto" />
+          <img src={counterfoilLogo} alt="Counterfoil" className="h-9 w-auto" />
           <button
             onClick={() => setSidebarOpen(false)}
             className="lg:hidden p-1 -mr-1 rounded-md hover:bg-gray-100"
