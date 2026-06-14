@@ -8,6 +8,8 @@ import {
   CreditCard,
   Banknote,
   Wallet,
+  Menu,
+  X,
 } from "lucide-react";
 import { MuseumsGalleriesPOS } from "@/components/MuseumsGalleriesPOS";
 import { EscapeRoomsPOS } from "@/components/EscapeRoomsPOS";
@@ -38,6 +40,8 @@ function Index() {
   const [activeVertical, setActiveVertical] = useState("museums");
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [paymentMethod, setPaymentMethod] = useState("card");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
 
   const addToCart = (item: Omit<CartItem, "id" | "qty">) => {
     setCartItems((prev) => [...prev, { ...item, id: Date.now(), qty: 1 }]);
@@ -55,11 +59,57 @@ function Index() {
 
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden relative">
+      {/* MOBILE TOP BAR */}
+      <header className="lg:hidden fixed top-0 inset-x-0 z-30 h-14 bg-white border-b border-gray-200 flex items-center justify-between px-4">
+        <button
+          onClick={() => setSidebarOpen(true)}
+          className="p-2 -ml-2 rounded-md hover:bg-gray-100"
+          aria-label="Open menu"
+        >
+          <Menu size={20} />
+        </button>
+        <img src={counterfoilLogo} alt="Counterfoil" className="h-5 w-auto" />
+        <button
+          onClick={() => setCartOpen(true)}
+          className="p-2 -mr-2 rounded-md hover:bg-gray-100 relative"
+          aria-label="Open cart"
+        >
+          <ShoppingCart size={20} />
+          {cartItems.length > 0 && (
+            <span className="absolute -top-0.5 -right-0.5 bg-violet-600 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center">
+              {cartItems.length}
+            </span>
+          )}
+        </button>
+      </header>
+
+      {/* BACKDROP */}
+      {(sidebarOpen || cartOpen) && (
+        <div
+          className="lg:hidden fixed inset-0 z-30 bg-black/40"
+          onClick={() => {
+            setSidebarOpen(false);
+            setCartOpen(false);
+          }}
+        />
+      )}
+
       {/* SIDEBAR */}
-      <aside className="w-[240px] bg-[#F9FAFB] border-r border-gray-200 flex flex-col shrink-0">
-        <div className="p-4 border-b border-gray-200 bg-white">
+      <aside
+        className={`w-[240px] bg-[#F9FAFB] border-r border-gray-200 flex flex-col shrink-0 fixed lg:static inset-y-0 left-0 z-40 transition-transform duration-200 ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0`}
+      >
+        <div className="p-4 border-b border-gray-200 bg-white flex items-center justify-between">
           <img src={counterfoilLogo} alt="Counterfoil" className="h-6 w-auto" />
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="lg:hidden p-1 -mr-1 rounded-md hover:bg-gray-100"
+            aria-label="Close menu"
+          >
+            <X size={18} />
+          </button>
         </div>
 
         <div className="px-4 pt-4">
@@ -96,18 +146,31 @@ function Index() {
       </aside>
 
       {/* MAIN */}
-      <main className="flex-1 bg-white overflow-y-auto p-6">
+      <main className="flex-1 bg-white overflow-y-auto p-4 sm:p-6 pt-[72px] lg:pt-6">
         {activeVertical === "museums" && <MuseumsGalleriesPOS addToCart={addToCart} />}
         {activeVertical === "escaperooms" && <EscapeRoomsPOS addToCart={addToCart} />}
       </main>
 
       {/* CART */}
-      <aside className="w-[380px] bg-white border-l border-gray-200 flex flex-col shrink-0">
+      <aside
+        className={`w-full max-w-[380px] lg:w-[380px] bg-white border-l border-gray-200 flex flex-col shrink-0 fixed lg:static inset-y-0 right-0 z-40 transition-transform duration-200 ${
+          cartOpen ? "translate-x-0" : "translate-x-full"
+        } lg:translate-x-0`}
+      >
         <div className="flex items-center justify-between p-4 border-b border-gray-100">
-          <div className="text-sm font-semibold text-gray-900">Cart</div>
-          <div className="bg-gray-900 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-            {cartItems.length}
+          <div className="flex items-center gap-2">
+            <div className="text-sm font-semibold text-gray-900">Cart</div>
+            <div className="bg-gray-900 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              {cartItems.length}
+            </div>
           </div>
+          <button
+            onClick={() => setCartOpen(false)}
+            className="lg:hidden p-1 -mr-1 rounded-md hover:bg-gray-100"
+            aria-label="Close cart"
+          >
+            <X size={18} />
+          </button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4">
