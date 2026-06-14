@@ -240,6 +240,11 @@ export function CruisesPOS({ addToCart }: { addToCart: AddToCartFn }) {
                     return (
                       <span
                         key={t}
+                        onClick={() =>
+                          showBlocked(
+                            "This seat is unavailable — please select an open seat.",
+                          )
+                        }
                         className="bg-gray-400 text-white cursor-not-allowed text-xs px-3 py-1.5 rounded-lg"
                       >
                         {t} · Reserved
@@ -250,7 +255,10 @@ export function CruisesPOS({ addToCart }: { addToCart: AddToCartFn }) {
                   return (
                     <button
                       key={t}
-                      onClick={() => setSelectedTable(t)}
+                      onClick={() => {
+                        setBlockedMsg(null);
+                        setSelectedTable(t);
+                      }}
                       className={`text-xs px-3 py-1.5 rounded-lg cursor-pointer ${
                         active
                           ? "bg-violet-500 text-white"
@@ -262,8 +270,10 @@ export function CruisesPOS({ addToCart }: { addToCart: AddToCartFn }) {
                   );
                 })}
               </div>
+              <BlockedNotice message={blockedMsg} onDismiss={() => setBlockedMsg(null)} />
             </>
           )}
+
 
           {area && selectedTable && (
             <div className="border border-gray-200 rounded-xl p-4">
