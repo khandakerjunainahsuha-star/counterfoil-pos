@@ -257,6 +257,8 @@ export function TheatresPOS({ addToCart }: { addToCart: AddToCartFn }) {
                       );
                     })}
                   </div>
+                  <BlockedNotice message={blockedMsg} onDismiss={() => setBlockedMsg(null)} />
+
 
                   {isolatedWarning && (
                     <div className="text-xs text-amber-600 mt-2">
