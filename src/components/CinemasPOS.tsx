@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BlockedNotice } from "./BlockedNotice";
 
 type AddToCartFn = (item: {
   btBadge: string;
@@ -92,6 +93,11 @@ export function CinemasPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const [selectedShowtime, setSelectedShowtime] = useState<string | null>(null);
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   const [ticketQtys, setTicketQtys] = useState<Record<string, number>>({});
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
 
   const film = filmsData.find((f) => f.id === selectedFilm) ?? null;
   const totalQty = Object.values(ticketQtys).reduce((s, v) => s + v, 0);
@@ -158,11 +164,16 @@ export function CinemasPOS({ addToCart }: { addToCart: AddToCartFn }) {
                 <div
                   key={s.t}
                   onClick={() => {
-                    if (!soldOut) {
-                      setSelectedShowtime(s.t);
-                      setSelectedSeats([]);
-                      setTicketQtys({});
+                    if (soldOut) {
+                      showBlocked(
+                        "This session is fully booked — please choose a different time slot.",
+                      );
+                      return;
                     }
+                    setBlockedMsg(null);
+                    setSelectedShowtime(s.t);
+                    setSelectedSeats([]);
+                    setTicketQtys({});
                   }}
                   className={`rounded-lg p-2 text-center text-xs ${cls}`}
                 >
@@ -172,6 +183,8 @@ export function CinemasPOS({ addToCart }: { addToCart: AddToCartFn }) {
               );
             })}
           </div>
+          <BlockedNotice message={blockedMsg} onDismiss={() => setBlockedMsg(null)} />
+
 
           {selectedShowtime && film.type === "ga" && (
             <div>
@@ -241,7 +254,13 @@ export function CinemasPOS({ addToCart }: { addToCart: AddToCartFn }) {
                         <div
                           key={key}
                           onClick={() => {
-                            if (taken) return;
+                            if (taken) {
+                              showBlocked(
+                                "This seat is unavailable — please select an open seat.",
+                              );
+                              return;
+                            }
+                            setBlockedMsg(null);
                             setSelectedSeats((prev) =>
                               prev.includes(key) ? prev.filter((s) => s !== key) : [...prev, key],
                             );

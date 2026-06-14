@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BlockedNotice } from "./BlockedNotice";
 
 type Slot = { t: string; spots: number };
 type Room = {
@@ -102,6 +103,11 @@ export function EscapeRoomsPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [groupSize, setGroupSize] = useState(0);
   const [addOns, setAddOns] = useState({ hints: false, photo: false, private: false });
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
 
   const room = roomsData.find((r) => r.id === selectedRoom);
   const addOnTotal = (addOns.hints ? 10 : 0) + (addOns.photo ? 25 : 0) + (addOns.private ? 40 : 0);
@@ -147,6 +153,11 @@ export function EscapeRoomsPOS({ addToCart }: { addToCart: AddToCartFn }) {
                 return (
                   <div
                     key={s.t}
+                    onClick={() =>
+                      showBlocked(
+                        "This session is fully booked — please choose a different time slot.",
+                      )
+                    }
                     className="bg-gray-100 text-gray-400 cursor-not-allowed rounded-lg p-2 text-center text-xs"
                   >
                     <div className="text-sm font-medium">{s.t}</div>
@@ -158,7 +169,10 @@ export function EscapeRoomsPOS({ addToCart }: { addToCart: AddToCartFn }) {
                 return (
                   <div
                     key={s.t}
-                    onClick={() => setSelectedSlot(s.t)}
+                    onClick={() => {
+                      setBlockedMsg(null);
+                      setSelectedSlot(s.t);
+                    }}
                     className="border border-violet-400 bg-violet-50 text-violet-700 cursor-pointer rounded-lg p-2 text-center text-xs font-medium"
                   >
                     <div className="text-sm font-medium">{s.t}</div>
@@ -170,7 +184,10 @@ export function EscapeRoomsPOS({ addToCart }: { addToCart: AddToCartFn }) {
                 return (
                   <div
                     key={s.t}
-                    onClick={() => setSelectedSlot(s.t)}
+                    onClick={() => {
+                      setBlockedMsg(null);
+                      setSelectedSlot(s.t);
+                    }}
                     className="border border-amber-400 bg-amber-50 text-amber-700 cursor-pointer rounded-lg p-2 text-center text-xs"
                   >
                     <div className="text-sm font-medium">{s.t}</div>
@@ -181,7 +198,10 @@ export function EscapeRoomsPOS({ addToCart }: { addToCart: AddToCartFn }) {
               return (
                 <div
                   key={s.t}
-                  onClick={() => setSelectedSlot(s.t)}
+                  onClick={() => {
+                    setBlockedMsg(null);
+                    setSelectedSlot(s.t);
+                  }}
                   className="border border-gray-200 bg-white hover:border-violet-300 cursor-pointer rounded-lg p-2 text-center text-xs"
                 >
                   <div className="text-sm font-medium">{s.t}</div>
@@ -190,6 +210,8 @@ export function EscapeRoomsPOS({ addToCart }: { addToCart: AddToCartFn }) {
               );
             })}
           </div>
+          <BlockedNotice message={blockedMsg} onDismiss={() => setBlockedMsg(null)} />
+
 
           {selectedSlot && (
             <div>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BlockedNotice } from "./BlockedNotice";
 
 type AddToCartFn = (item: {
   btBadge: string;
@@ -160,6 +161,12 @@ export function BaseballPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const [selectedCamp, setSelectedCamp] = useState<string | null>(null);
   const [playerName, setPlayerName] = useState("");
   const [playerAge, setPlayerAge] = useState("");
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
+
 
   const freeCount = cagesData.filter((c) => c.free).length;
   const computedEnd = computeEnd(duration);
@@ -239,6 +246,7 @@ export function BaseballPOS({ addToCart }: { addToCart: AddToCartFn }) {
                   <div
                     key={c.id}
                     onClick={() => {
+                      setBlockedMsg(null);
                       setSelectedCage(c.id);
                       setActivityType(null);
                       setDuration(1);
@@ -258,6 +266,15 @@ export function BaseballPOS({ addToCart }: { addToCart: AddToCartFn }) {
                 return (
                   <div
                     key={c.id}
+                    onClick={() =>
+                      showBlocked(
+                        "Cage " +
+                          c.id +
+                          " is still occupied and ends at " +
+                          c.ends +
+                          ". It will be free shortly — try again in a few minutes.",
+                      )
+                    }
                     className="rounded-xl border p-3 text-center text-xs bg-amber-50 border-amber-200 cursor-not-allowed"
                   >
                     <div className="font-bold text-amber-700">{c.id}</div>
@@ -269,6 +286,15 @@ export function BaseballPOS({ addToCart }: { addToCart: AddToCartFn }) {
               return (
                 <div
                   key={c.id}
+                  onClick={() =>
+                    showBlocked(
+                      "Cage " +
+                        c.id +
+                        " is in use until " +
+                        c.ends +
+                        ". Select a free cage from the grid.",
+                    )
+                  }
                   className="rounded-xl border p-3 text-center text-xs bg-gray-100 border-gray-200 cursor-not-allowed"
                 >
                   <div className="font-bold text-gray-400">{c.id}</div>
@@ -277,6 +303,8 @@ export function BaseballPOS({ addToCart }: { addToCart: AddToCartFn }) {
               );
             })}
           </div>
+          <BlockedNotice message={blockedMsg} onDismiss={() => setBlockedMsg(null)} />
+
 
           {selectedCage && (
             <div>

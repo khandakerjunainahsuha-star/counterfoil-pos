@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BlockedNotice } from "./BlockedNotice";
 
 type AddToCartFn = (item: {
   btBadge: string;
@@ -52,6 +53,11 @@ export function BowlingAlleysPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const [selectedLane, setSelectedLane] = useState<string | null>(null);
   const [duration, setDuration] = useState(60);
   const [startTime, setStartTime] = useState<number | null>(null);
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
 
   const lane = lanes.find((l) => l.id === selectedLane);
 
@@ -71,6 +77,18 @@ export function BowlingAlleysPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const span = CLOSE - OPEN;
 
   const changeDuration = (next: number) => {
+    if (
+      next > duration &&
+      startTime !== null &&
+      lane &&
+      !isStartValid(startTime, next)
+    ) {
+      showBlocked(
+        "Can't extend here — this time is already booked. Try a shorter duration or an earlier start time.",
+      );
+      return;
+    }
+    setBlockedMsg(null);
     setDuration(next);
     if (startTime !== null && !isStartValid(startTime, next)) setStartTime(null);
   };
@@ -94,6 +112,7 @@ export function BowlingAlleysPOS({ addToCart }: { addToCart: AddToCartFn }) {
             <div
               key={l.id}
               onClick={() => {
+                setBlockedMsg(null);
                 setSelectedLane(l.id);
                 setStartTime(null);
               }}
@@ -122,7 +141,12 @@ export function BowlingAlleysPOS({ addToCart }: { addToCart: AddToCartFn }) {
             {lane.occupied.map((b, i) => (
               <div
                 key={i}
-                className="absolute top-0 bottom-0 bg-gray-300 flex items-center justify-center text-[10px] text-gray-700 overflow-hidden"
+                onClick={() =>
+                  showBlocked(
+                    "This time slot is already booked. Select a free section on the timeline.",
+                  )
+                }
+                className="absolute top-0 bottom-0 bg-gray-300 flex items-center justify-center text-[10px] text-gray-700 overflow-hidden cursor-not-allowed"
                 style={{
                   left: `${((b.start - OPEN) / span) * 100}%`,
                   width: `${((b.end - b.start) / span) * 100}%`,
@@ -142,7 +166,7 @@ export function BowlingAlleysPOS({ addToCart }: { addToCart: AddToCartFn }) {
               />
             )}
           </div>
-          <div className="relative h-4 mb-5 text-[10px] text-gray-400">
+          <div className="relative h-4 mb-2 text-[10px] text-gray-400">
             {[10, 13, 16, 19, 22].map((h) => (
               <span
                 key={h}
@@ -153,6 +177,8 @@ export function BowlingAlleysPOS({ addToCart }: { addToCart: AddToCartFn }) {
               </span>
             ))}
           </div>
+          <BlockedNotice message={blockedMsg} onDismiss={() => setBlockedMsg(null)} />
+
 
           <div className="flex items-center gap-3 mb-5">
             <span className="text-sm font-medium text-gray-700">Duration</span>
@@ -182,7 +208,10 @@ export function BowlingAlleysPOS({ addToCart }: { addToCart: AddToCartFn }) {
                 <button
                   key={t}
                   disabled={!valid}
-                  onClick={() => setStartTime(t)}
+                  onClick={() => {
+                    setBlockedMsg(null);
+                    setStartTime(t);
+                  }}
                   className={`rounded-lg border py-2 text-sm ${
                     !valid
                       ? "opacity-40 cursor-not-allowed border-gray-200"

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BlockedNotice } from "./BlockedNotice";
 
 type AddToCartFn = (item: {
   btBadge: string;
@@ -76,6 +77,11 @@ export function TheatresPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   // Tracks seats taken from previous additions, per show|perf|section
   const [bookedMap, setBookedMap] = useState<Record<string, string[]>>({});
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
 
   const show = shows.find((s) => s.id === selectedShow) ?? null;
   const perf = show?.perfs.find((p) => p.id === selectedPerf) ?? null;
@@ -229,7 +235,13 @@ export function TheatresPOS({ addToCart }: { addToCart: AddToCartFn }) {
                               <div
                                 key={key}
                                 onClick={() => {
-                                  if (taken) return;
+                                  if (taken) {
+                                    showBlocked(
+                                      "This seat is unavailable — please select an open seat.",
+                                    );
+                                    return;
+                                  }
+                                  setBlockedMsg(null);
                                   setSelectedSeats((prev) =>
                                     prev.includes(key)
                                       ? prev.filter((s) => s !== key)
@@ -238,12 +250,15 @@ export function TheatresPOS({ addToCart }: { addToCart: AddToCartFn }) {
                                 }}
                                 className={`w-5 h-5 rounded-sm border m-0.5 cursor-pointer ${cls}`}
                               />
+
                             );
                           })}
                         </div>
                       );
                     })}
                   </div>
+                  <BlockedNotice message={blockedMsg} onDismiss={() => setBlockedMsg(null)} />
+
 
                   {isolatedWarning && (
                     <div className="text-xs text-amber-600 mt-2">

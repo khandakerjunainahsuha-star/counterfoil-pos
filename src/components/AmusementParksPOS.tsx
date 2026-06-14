@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BlockedNotice } from "./BlockedNotice";
 
 type AddToCartFn = (item: {
   btBadge: string;
@@ -89,6 +90,11 @@ export function AmusementParksPOS({ addToCart }: { addToCart: AddToCartFn }) {
     senior: 0,
   });
   const [fastpass, setFastpass] = useState({ thunder: false, galaxy: false, splash: false });
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
 
   const tier = tiers.find((t) => t.id === selectedTier) ?? null;
   const dateObj = dates.find((d) => d.d === selectedDate) ?? null;
@@ -127,7 +133,13 @@ export function AmusementParksPOS({ addToCart }: { addToCart: AddToCartFn }) {
             <div
               key={t.id}
               onClick={() => {
-                if (t.soldOut) return;
+                if (t.soldOut) {
+                  showBlocked(
+                    "This pass is sold out for today. Select a different date or choose another tier.",
+                  );
+                  return;
+                }
+                setBlockedMsg(null);
                 setSelectedTier(t.id);
                 setSelectedDate(null);
                 setQtys({ adult: 0, child: 0, infant: 0, senior: 0 });
@@ -159,6 +171,8 @@ export function AmusementParksPOS({ addToCart }: { addToCart: AddToCartFn }) {
           );
         })}
       </div>
+      <BlockedNotice message={blockedMsg} onDismiss={() => setBlockedMsg(null)} />
+
 
       {tier && (
         <div>

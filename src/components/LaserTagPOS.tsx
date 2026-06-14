@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BlockedNotice } from "./BlockedNotice";
 
 type AddToCartFn = (item: {
   btBadge: string;
@@ -25,6 +26,11 @@ export function LaserTagPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const [selectedSession, setSelectedSession] = useState<string | null>(null);
   const [groupSize, setGroupSize] = useState(1);
   const [addOns, setAddOns] = useState({ photo: false, cert: false });
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
 
   const sess = sessions.find((s) => s.id === selectedSession) || null;
   const sessRemaining = sess ? sess.total - sess.filled : 0;
@@ -65,10 +71,13 @@ export function LaserTagPOS({ addToCart }: { addToCart: AddToCartFn }) {
           <div
             key={s.id}
             onClick={() => {
-              if (remaining > 0) {
-                setSelectedSession(s.id);
-                setGroupSize(1);
+              if (remaining === 0) {
+                showBlocked("This session is full. Please choose another available session below.");
+                return;
               }
+              setBlockedMsg(null);
+              setSelectedSession(s.id);
+              setGroupSize(1);
             }}
             className={`border rounded-xl p-4 mb-3 cursor-pointer ${cls}`}
           >
@@ -91,6 +100,8 @@ export function LaserTagPOS({ addToCart }: { addToCart: AddToCartFn }) {
           </div>
         );
       })}
+      <BlockedNotice message={blockedMsg} onDismiss={() => setBlockedMsg(null)} />
+
 
       {sess && (
         <div className="mt-6 border border-gray-200 rounded-xl p-4">

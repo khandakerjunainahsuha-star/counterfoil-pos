@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BlockedNotice } from "./BlockedNotice";
 
 type AddToCartFn = (item: {
   btBadge: string;
@@ -94,6 +95,11 @@ export function KartingPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const [groupSize, setGroupSize] = useState(1);
   const [waiverChecked, setWaiverChecked] = useState(false);
   const [addOns, setAddOns] = useState({ timing: false, photo: false, overalls: false });
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
 
   const reset = () => {
     setSelectedActivity(null);
@@ -163,7 +169,16 @@ export function KartingPOS({ addToCart }: { addToCart: AddToCartFn }) {
               return (
                 <div
                   key={s.t}
-                  onClick={() => !soldOut && setSelectedSlot(s.t)}
+                  onClick={() => {
+                    if (soldOut) {
+                      showBlocked(
+                        "This session is fully booked — please choose a different time slot.",
+                      );
+                      return;
+                    }
+                    setBlockedMsg(null);
+                    setSelectedSlot(s.t);
+                  }}
                   className={`border rounded-lg p-2 text-center text-xs ${cls}`}
                 >
                   <div>{s.t}</div>
@@ -174,6 +189,8 @@ export function KartingPOS({ addToCart }: { addToCart: AddToCartFn }) {
               );
             })}
           </div>
+          <BlockedNotice message={blockedMsg} onDismiss={() => setBlockedMsg(null)} />
+
 
           {selectedSlot && !act.flat && (
             <div className="border border-gray-200 rounded-xl p-4 mb-4">

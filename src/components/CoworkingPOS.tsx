@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { BlockedNotice } from "./BlockedNotice";
 
 type AddToCartFn = (item: {
   btBadge: string;
@@ -77,6 +78,38 @@ export function CoworkingPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const [duration, setDuration] = useState(2);
   const [catering, setCatering] = useState({ coffee: false, lunch: false, tea: false });
   const [delegates, setDelegates] = useState(5);
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
+
+  const overlapsBooking = (start: number, dur: number) => {
+    const r = rooms.find((rm) => rm.id === selectedRoom);
+    if (!r) return false;
+    const end = start + dur;
+    return r.blocks.some((b) => start < b.to && end > b.from);
+  };
+  const tryDuration = (next: number) => {
+    if (next > duration && overlapsBooking(startHour, next)) {
+      showBlocked(
+        "Can't extend here — this time is already booked. Try a shorter duration or an earlier start time.",
+      );
+      return;
+    }
+    setBlockedMsg(null);
+    setDuration(next);
+  };
+  const tryStart = (next: number) => {
+    if (overlapsBooking(next, duration)) {
+      showBlocked(
+        "Can't start here — this time is already booked. Try another start time or shorter duration.",
+      );
+      return;
+    }
+    setBlockedMsg(null);
+    setStartHour(next);
+  };
 
   const reset = () => {
     setSelectedRoom(null);
@@ -156,7 +189,12 @@ export function CoworkingPOS({ addToCart }: { addToCart: AddToCartFn }) {
                 {room.blocks.map((b, i) => (
                   <div
                     key={i}
-                    className="absolute top-0 bottom-0 bg-gray-400 flex items-center justify-center text-white text-xs"
+                    onClick={() =>
+                      showBlocked(
+                        "This time slot is already booked. Select a free section on the timeline.",
+                      )
+                    }
+                    className="absolute top-0 bottom-0 bg-gray-400 flex items-center justify-center text-white text-xs cursor-not-allowed"
                     style={{
                       left: `${((b.from - 8) / 12) * 100}%`,
                       width: `${((b.to - b.from) / 12) * 100}%`,
@@ -178,19 +216,21 @@ export function CoworkingPOS({ addToCart }: { addToCart: AddToCartFn }) {
                   <span key={t}>{t}</span>
                 ))}
               </div>
+              <BlockedNotice message={blockedMsg} onDismiss={() => setBlockedMsg(null)} />
+
 
               <div className="flex flex-wrap gap-4 items-center mt-3">
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-gray-500">Start</span>
                   <button
-                    onClick={() => setStartHour((v) => Math.max(8, v - 0.5))}
+                    onClick={() => tryStart(Math.max(8, startHour - 0.5))}
                     className="w-8 h-8 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50"
                   >
                     −
                   </button>
                   <span className="text-sm w-12 text-center">{fmt(startHour)}</span>
                   <button
-                    onClick={() => setStartHour((v) => Math.min(19, v + 0.5))}
+                    onClick={() => tryStart(Math.min(19, startHour + 0.5))}
                     className="w-8 h-8 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50"
                   >
                     +
@@ -199,14 +239,15 @@ export function CoworkingPOS({ addToCart }: { addToCart: AddToCartFn }) {
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-gray-500">Duration</span>
                   <button
-                    onClick={() => setDuration((v) => Math.max(0.5, v - 0.5))}
+                    onClick={() => tryDuration(Math.max(0.5, duration - 0.5))}
+
                     className="w-8 h-8 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50"
                   >
                     −
                   </button>
                   <span className="text-sm w-10 text-center">{duration} hr</span>
                   <button
-                    onClick={() => setDuration((v) => Math.min(6, v + 0.5))}
+                    onClick={() => tryDuration(Math.min(6, duration + 0.5))}
                     className="w-8 h-8 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50"
                   >
                     +
