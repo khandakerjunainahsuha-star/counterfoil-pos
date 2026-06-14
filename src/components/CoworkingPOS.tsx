@@ -223,14 +223,14 @@ export function CoworkingPOS({ addToCart }: { addToCart: AddToCartFn }) {
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-gray-500">Start</span>
                   <button
-                    onClick={() => setStartHour((v) => Math.max(8, v - 0.5))}
+                    onClick={() => tryStart(Math.max(8, startHour - 0.5))}
                     className="w-8 h-8 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50"
                   >
                     −
                   </button>
                   <span className="text-sm w-12 text-center">{fmt(startHour)}</span>
                   <button
-                    onClick={() => setStartHour((v) => Math.min(19, v + 0.5))}
+                    onClick={() => tryStart(Math.min(19, startHour + 0.5))}
                     className="w-8 h-8 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50"
                   >
                     +
@@ -239,7 +239,8 @@ export function CoworkingPOS({ addToCart }: { addToCart: AddToCartFn }) {
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-gray-500">Duration</span>
                   <button
-                    onClick={() => setDuration((v) => Math.max(0.5, v - 0.5))}
+                    onClick={() => tryDuration(Math.max(0.5, duration - 0.5))}
+
                     className="w-8 h-8 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50"
                   >
                     −
