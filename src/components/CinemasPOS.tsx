@@ -282,6 +282,25 @@ export function CinemasPOS({ addToCart }: { addToCart: AddToCartFn }) {
                   date: "2026-06-14",
                   time: selectedShowtime,
                 });
+                // Decrement inventory
+                if (film.type === "ga") {
+                  setFilmsData((prev) =>
+                    prev.map((f) =>
+                      f.id === film.id
+                        ? {
+                            ...f,
+                            showtimes: f.showtimes.map((s) =>
+                              s.t === selectedShowtime
+                                ? { ...s, spots: Math.max(0, s.spots - totalQty) }
+                                : s,
+                            ),
+                          }
+                        : f,
+                    ),
+                  );
+                } else {
+                  setTakenSeats((prev) => [...prev, ...selectedSeats]);
+                }
                 resetAll();
               }}
               className="w-full mt-4 bg-gray-900 text-white rounded-xl py-3 text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-800"
