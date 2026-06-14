@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { MuseumsGalleriesPOS } from "@/components/MuseumsGalleriesPOS";
 import { EscapeRoomsPOS } from "@/components/EscapeRoomsPOS";
+import { CinemasPOS } from "@/components/CinemasPOS";
 import counterfoilLogo from "@/assets/counterfoil-logo.png";
 
 export const Route = createFileRoute("/")({
