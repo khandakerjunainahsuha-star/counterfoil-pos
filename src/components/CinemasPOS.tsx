@@ -93,6 +93,11 @@ export function CinemasPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const [selectedShowtime, setSelectedShowtime] = useState<string | null>(null);
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   const [ticketQtys, setTicketQtys] = useState<Record<string, number>>({});
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
 
   const film = filmsData.find((f) => f.id === selectedFilm) ?? null;
   const totalQty = Object.values(ticketQtys).reduce((s, v) => s + v, 0);
