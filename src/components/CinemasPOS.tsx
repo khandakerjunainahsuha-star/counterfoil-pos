@@ -164,11 +164,16 @@ export function CinemasPOS({ addToCart }: { addToCart: AddToCartFn }) {
                 <div
                   key={s.t}
                   onClick={() => {
-                    if (!soldOut) {
-                      setSelectedShowtime(s.t);
-                      setSelectedSeats([]);
-                      setTicketQtys({});
+                    if (soldOut) {
+                      showBlocked(
+                        "This session is fully booked — please choose a different time slot.",
+                      );
+                      return;
                     }
+                    setBlockedMsg(null);
+                    setSelectedShowtime(s.t);
+                    setSelectedSeats([]);
+                    setTicketQtys({});
                   }}
                   className={`rounded-lg p-2 text-center text-xs ${cls}`}
                 >
@@ -178,6 +183,8 @@ export function CinemasPOS({ addToCart }: { addToCart: AddToCartFn }) {
               );
             })}
           </div>
+          <BlockedNotice message={blockedMsg} onDismiss={() => setBlockedMsg(null)} />
+
 
           {selectedShowtime && film.type === "ga" && (
             <div>
