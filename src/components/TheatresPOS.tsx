@@ -77,6 +77,11 @@ export function TheatresPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   // Tracks seats taken from previous additions, per show|perf|section
   const [bookedMap, setBookedMap] = useState<Record<string, string[]>>({});
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
 
   const show = shows.find((s) => s.id === selectedShow) ?? null;
   const perf = show?.perfs.find((p) => p.id === selectedPerf) ?? null;
