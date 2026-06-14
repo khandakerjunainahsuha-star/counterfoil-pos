@@ -53,6 +53,11 @@ export function BowlingAlleysPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const [selectedLane, setSelectedLane] = useState<string | null>(null);
   const [duration, setDuration] = useState(60);
   const [startTime, setStartTime] = useState<number | null>(null);
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
 
   const lane = lanes.find((l) => l.id === selectedLane);
 
