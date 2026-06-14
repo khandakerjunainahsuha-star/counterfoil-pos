@@ -86,12 +86,14 @@ const rows = ["A", "B", "C", "D", "E", "F", "G", "H"];
 const cols = Array.from({ length: 14 }, (_, i) => i + 1);
 
 export function CinemasPOS({ addToCart }: { addToCart: AddToCartFn }) {
+  const [filmsData, setFilmsData] = useState<Film[]>(films);
+  const [takenSeats, setTakenSeats] = useState<string[]>(initialTakenSeats);
   const [selectedFilm, setSelectedFilm] = useState<string | null>(null);
   const [selectedShowtime, setSelectedShowtime] = useState<string | null>(null);
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   const [ticketQtys, setTicketQtys] = useState<Record<string, number>>({});
 
-  const film = films.find((f) => f.id === selectedFilm) ?? null;
+  const film = filmsData.find((f) => f.id === selectedFilm) ?? null;
   const totalQty = Object.values(ticketQtys).reduce((s, v) => s + v, 0);
   const totalPrice = film
     ? tiers.reduce((s, t) => s + (ticketQtys[t.id] || 0) * (film.price + t.adj), 0)
