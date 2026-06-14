@@ -78,6 +78,38 @@ export function CoworkingPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const [duration, setDuration] = useState(2);
   const [catering, setCatering] = useState({ coffee: false, lunch: false, tea: false });
   const [delegates, setDelegates] = useState(5);
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
+
+  const room0 = rooms.find((r) => r.id === selectedRoom) || null;
+  const overlapsBooking = (start: number, dur: number) => {
+    if (!room0) return false;
+    const end = start + dur;
+    return room0.blocks.some((b) => start < b.to && end > b.from);
+  };
+  const tryDuration = (next: number) => {
+    if (next > duration && overlapsBooking(startHour, next)) {
+      showBlocked(
+        "Can't extend here — this time is already booked. Try a shorter duration or an earlier start time.",
+      );
+      return;
+    }
+    setBlockedMsg(null);
+    setDuration(next);
+  };
+  const tryStart = (next: number) => {
+    if (overlapsBooking(next, duration)) {
+      showBlocked(
+        "Can't start here — this time is already booked. Try another start time or shorter duration.",
+      );
+      return;
+    }
+    setBlockedMsg(null);
+    setStartHour(next);
+  };
 
   const reset = () => {
     setSelectedRoom(null);
