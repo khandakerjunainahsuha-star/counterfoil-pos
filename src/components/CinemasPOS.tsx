@@ -81,17 +81,19 @@ const tiers = [
   { id: "senior", label: "Senior", adj: -2 },
 ];
 
-const takenSeats = ["A1", "A2", "A3", "B12", "B13", "B14", "D6", "D7", "D8", "E1", "E14"];
+const initialTakenSeats = ["A1", "A2", "A3", "B12", "B13", "B14", "D6", "D7", "D8", "E1", "E14"];
 const rows = ["A", "B", "C", "D", "E", "F", "G", "H"];
 const cols = Array.from({ length: 14 }, (_, i) => i + 1);
 
 export function CinemasPOS({ addToCart }: { addToCart: AddToCartFn }) {
+  const [filmsData, setFilmsData] = useState<Film[]>(films);
+  const [takenSeats, setTakenSeats] = useState<string[]>(initialTakenSeats);
   const [selectedFilm, setSelectedFilm] = useState<string | null>(null);
   const [selectedShowtime, setSelectedShowtime] = useState<string | null>(null);
   const [selectedSeats, setSelectedSeats] = useState<string[]>([]);
   const [ticketQtys, setTicketQtys] = useState<Record<string, number>>({});
 
-  const film = films.find((f) => f.id === selectedFilm) ?? null;
+  const film = filmsData.find((f) => f.id === selectedFilm) ?? null;
   const totalQty = Object.values(ticketQtys).reduce((s, v) => s + v, 0);
   const totalPrice = film
     ? tiers.reduce((s, t) => s + (ticketQtys[t.id] || 0) * (film.price + t.adj), 0)
@@ -109,7 +111,7 @@ export function CinemasPOS({ addToCart }: { addToCart: AddToCartFn }) {
       <h2 className="text-lg font-semibold text-gray-900 mb-4">Cinemas</h2>
 
       <div className="grid grid-cols-2 gap-3 mb-6">
-        {films.map((f) => {
+        {filmsData.map((f) => {
           const active = selectedFilm === f.id;
           return (
             <div
@@ -198,10 +200,14 @@ export function CinemasPOS({ addToCart }: { addToCart: AddToCartFn }) {
                       </button>
                       <span className="text-sm font-medium w-6 text-center">{qty}</span>
                       <button
+                        disabled={
+                          totalQty >=
+                          (film.showtimes.find((s) => s.t === selectedShowtime)?.spots ?? 0)
+                        }
                         onClick={() =>
                           setTicketQtys((q) => ({ ...q, [tier.id]: qty + 1 }))
                         }
-                        className="w-6 h-6 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50 text-xs"
+                        className="w-6 h-6 rounded-md border border-gray-200 text-gray-600 hover:bg-gray-50 text-xs disabled:opacity-40 disabled:cursor-not-allowed"
                       >
                         +
                       </button>
@@ -280,6 +286,25 @@ export function CinemasPOS({ addToCart }: { addToCart: AddToCartFn }) {
                   date: "2026-06-14",
                   time: selectedShowtime,
                 });
+                // Decrement inventory
+                if (film.type === "ga") {
+                  setFilmsData((prev) =>
+                    prev.map((f) =>
+                      f.id === film.id
+                        ? {
+                            ...f,
+                            showtimes: f.showtimes.map((s) =>
+                              s.t === selectedShowtime
+                                ? { ...s, spots: Math.max(0, s.spots - totalQty) }
+                                : s,
+                            ),
+                          }
+                        : f,
+                    ),
+                  );
+                } else {
+                  setTakenSeats((prev) => [...prev, ...selectedSeats]);
+                }
                 resetAll();
               }}
               className="w-full mt-4 bg-gray-900 text-white rounded-xl py-3 text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-gray-800"
