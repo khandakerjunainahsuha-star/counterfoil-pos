@@ -16,7 +16,7 @@ const passes = [
     name: "Standard Day Pass",
     subtitle: "All pools & slides",
     prices: { adult: 42, child: 30, infant: 0 } as Record<string, number>,
-    cap: { used: 387, total: 500 },
+    cap: { used: 387, total: 500, left: 113 },
   },
   {
     id: "premium",
@@ -24,7 +24,7 @@ const passes = [
     name: "Premium Day Pass",
     subtitle: "Standard + Wave Pool priority + locker",
     prices: { adult: 62, child: 45, infant: 0 } as Record<string, number>,
-    cap: { used: 94, total: 200 },
+    cap: { used: 94, total: 200, left: 106 },
   },
   {
     id: "group",
@@ -32,7 +32,7 @@ const passes = [
     name: "Group / School Visit",
     subtitle: "Min 15 people · invoiced billing",
     prices: { adult: 28, child: 20, infant: 0 } as Record<string, number>,
-    cap: { used: 0, total: 999 },
+    cap: { used: 0, total: 999, left: 999 },
   },
 ];
 
