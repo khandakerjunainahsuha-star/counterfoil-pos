@@ -81,7 +81,7 @@ const tiers = [
   { id: "senior", label: "Senior", adj: -2 },
 ];
 
-const takenSeats = ["A1", "A2", "A3", "B12", "B13", "B14", "D6", "D7", "D8", "E1", "E14"];
+const initialTakenSeats = ["A1", "A2", "A3", "B12", "B13", "B14", "D6", "D7", "D8", "E1", "E14"];
 const rows = ["A", "B", "C", "D", "E", "F", "G", "H"];
 const cols = Array.from({ length: 14 }, (_, i) => i + 1);
 
