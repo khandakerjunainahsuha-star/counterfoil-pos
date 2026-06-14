@@ -97,19 +97,20 @@ const addOnList = [
 ];
 
 export function EscapeRoomsPOS({ addToCart }: { addToCart: AddToCartFn }) {
+  const [roomsData, setRoomsData] = useState<Room[]>(rooms);
   const [selectedRoom, setSelectedRoom] = useState<string | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
   const [groupSize, setGroupSize] = useState(0);
   const [addOns, setAddOns] = useState({ hints: false, photo: false, private: false });
 
-  const room = rooms.find((r) => r.id === selectedRoom);
+  const room = roomsData.find((r) => r.id === selectedRoom);
   const addOnTotal = (addOns.hints ? 10 : 0) + (addOns.photo ? 25 : 0) + (addOns.private ? 40 : 0);
   const total = room ? groupSize * room.price + addOnTotal : 0;
 
   return (
     <div>
       <div className="grid grid-cols-2 gap-3 mb-6">
-        {rooms.map((r) => {
+        {roomsData.map((r) => {
           const active = selectedRoom === r.id;
           return (
             <div
@@ -267,6 +268,19 @@ export function EscapeRoomsPOS({ addToCart }: { addToCart: AddToCartFn }) {
                     date: "2026-06-14",
                     time: selectedSlot!,
                   });
+                  // Decrement inventory: escape room slot is exclusive once booked
+                  setRoomsData((prev) =>
+                    prev.map((r) =>
+                      r.id === room.id
+                        ? {
+                            ...r,
+                            slots: r.slots.map((s) =>
+                              s.t === selectedSlot ? { ...s, spots: 0 } : s,
+                            ),
+                          }
+                        : r,
+                    ),
+                  );
                   setSelectedRoom(null);
                   setSelectedSlot(null);
                   setGroupSize(0);
