@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { MuseumsGalleriesPOS } from "@/components/MuseumsGalleriesPOS";
 import { EscapeRoomsPOS } from "@/components/EscapeRoomsPOS";
+import counterfoilLogo from "@/assets/counterfoil-logo.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -81,8 +82,8 @@ function Index() {
     <div className="flex h-screen overflow-hidden">
       {/* SIDEBAR */}
       <aside className="w-[240px] bg-[#F9FAFB] border-r border-gray-200 flex flex-col shrink-0">
-        <div className="p-4 border-b border-gray-200">
-          <div className="text-sm font-semibold text-gray-900">● Counterfoil</div>
+        <div className="p-4 border-b border-gray-200 bg-gray-900">
+          <img src={counterfoilLogo} alt="Counterfoil" className="h-6 w-auto" />
         </div>
 
         <div className="px-4 pt-4">
