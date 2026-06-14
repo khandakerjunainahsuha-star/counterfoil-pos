@@ -133,7 +133,13 @@ export function AmusementParksPOS({ addToCart }: { addToCart: AddToCartFn }) {
             <div
               key={t.id}
               onClick={() => {
-                if (t.soldOut) return;
+                if (t.soldOut) {
+                  showBlocked(
+                    "This pass is sold out for today. Select a different date or choose another tier.",
+                  );
+                  return;
+                }
+                setBlockedMsg(null);
                 setSelectedTier(t.id);
                 setSelectedDate(null);
                 setQtys({ adult: 0, child: 0, infant: 0, senior: 0 });
