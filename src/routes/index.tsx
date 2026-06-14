@@ -19,6 +19,7 @@ import { TheatresPOS } from "@/components/TheatresPOS";
 import { BaseballPOS } from "@/components/BaseballPOS";
 import { AmusementParksPOS } from "@/components/AmusementParksPOS";
 import { BowlingPOS } from "@/components/BowlingPOS";
+import { WaterParksPOS } from "@/components/WaterParksPOS";
 import counterfoilLogo from "@/assets/counterfoil-logo.png";
 
 export const Route = createFileRoute("/")({
