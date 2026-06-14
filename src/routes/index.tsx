@@ -1,22 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import {
-  Zap,
   ShoppingCart,
-  Package,
-  Tag,
-  CreditCard,
-  Users,
-  BarChart2,
-  FileText,
-  Layers,
-  Plug,
-  UserCheck,
-  Bell,
-  Settings,
-  HelpCircle,
   Calendar,
+  BarChart2,
   Clock,
+  CreditCard,
   Banknote,
   Wallet,
 } from "lucide-react";
