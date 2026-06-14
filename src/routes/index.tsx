@@ -48,24 +48,11 @@ function Index() {
   const total = subtotal + tax;
 
   const navItems = [
-    { icon: Zap, label: "Operate" },
     { icon: ShoppingCart, label: "POS", active: true },
-    { icon: Package, label: "Catalog" },
-    { icon: Tag, label: "Promotions" },
-    { icon: CreditCard, label: "Payments" },
-    { icon: Users, label: "Customers" },
-    { icon: BarChart2, label: "Analytics" },
-    { icon: FileText, label: "Reports" },
+    { icon: Calendar, label: "Schedule" },
+    { icon: BarChart2, label: "Sales" },
   ];
 
-  const generalItems = [
-    { icon: Layers, label: "Verticals" },
-    { icon: Plug, label: "Integrations" },
-    { icon: UserCheck, label: "Team" },
-    { icon: Bell, label: "Notifications" },
-    { icon: Settings, label: "Settings" },
-    { icon: HelpCircle, label: "Support" },
-  ];
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -104,23 +91,8 @@ function Index() {
               </div>
             );
           })}
-
-          <div className="text-xs uppercase tracking-wider text-gray-400 px-3 mt-4 mb-1">
-            GENERAL
-          </div>
-          {generalItems.map((item) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={item.label}
-                className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-gray-600 cursor-pointer hover:bg-gray-100"
-              >
-                <Icon size={16} />
-                {item.label}
-              </div>
-            );
-          })}
         </nav>
+
       </aside>
 
       {/* MAIN */}
