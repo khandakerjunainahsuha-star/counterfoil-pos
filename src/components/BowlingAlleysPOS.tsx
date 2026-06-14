@@ -208,7 +208,10 @@ export function BowlingAlleysPOS({ addToCart }: { addToCart: AddToCartFn }) {
                 <button
                   key={t}
                   disabled={!valid}
-                  onClick={() => setStartTime(t)}
+                  onClick={() => {
+                    setBlockedMsg(null);
+                    setStartTime(t);
+                  }}
                   className={`rounded-lg border py-2 text-sm ${
                     !valid
                       ? "opacity-40 cursor-not-allowed border-gray-200"
