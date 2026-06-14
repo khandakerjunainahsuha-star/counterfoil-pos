@@ -26,6 +26,11 @@ export function LaserTagPOS({ addToCart }: { addToCart: AddToCartFn }) {
   const [selectedSession, setSelectedSession] = useState<string | null>(null);
   const [groupSize, setGroupSize] = useState(1);
   const [addOns, setAddOns] = useState({ photo: false, cert: false });
+  const [blockedMsg, setBlockedMsg] = useState<string | null>(null);
+  const showBlocked = (msg: string) => {
+    setBlockedMsg(msg);
+    setTimeout(() => setBlockedMsg(null), 3000);
+  };
 
   const sess = sessions.find((s) => s.id === selectedSession) || null;
   const sessRemaining = sess ? sess.total - sess.filled : 0;
