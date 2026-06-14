@@ -141,7 +141,12 @@ export function BowlingAlleysPOS({ addToCart }: { addToCart: AddToCartFn }) {
             {lane.occupied.map((b, i) => (
               <div
                 key={i}
-                className="absolute top-0 bottom-0 bg-gray-300 flex items-center justify-center text-[10px] text-gray-700 overflow-hidden"
+                onClick={() =>
+                  showBlocked(
+                    "This time slot is already booked. Select a free section on the timeline.",
+                  )
+                }
+                className="absolute top-0 bottom-0 bg-gray-300 flex items-center justify-center text-[10px] text-gray-700 overflow-hidden cursor-not-allowed"
                 style={{
                   left: `${((b.start - OPEN) / span) * 100}%`,
                   width: `${((b.end - b.start) / span) * 100}%`,
@@ -161,7 +166,7 @@ export function BowlingAlleysPOS({ addToCart }: { addToCart: AddToCartFn }) {
               />
             )}
           </div>
-          <div className="relative h-4 mb-5 text-[10px] text-gray-400">
+          <div className="relative h-4 mb-2 text-[10px] text-gray-400">
             {[10, 13, 16, 19, 22].map((h) => (
               <span
                 key={h}
@@ -172,6 +177,8 @@ export function BowlingAlleysPOS({ addToCart }: { addToCart: AddToCartFn }) {
               </span>
             ))}
           </div>
+          <BlockedNotice message={blockedMsg} onDismiss={() => setBlockedMsg(null)} />
+
 
           <div className="flex items-center gap-3 mb-5">
             <span className="text-sm font-medium text-gray-700">Duration</span>
