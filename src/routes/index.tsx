@@ -10,6 +10,7 @@ import {
   Wallet,
   Menu,
   X,
+  UserCheck,
 } from "lucide-react";
 import { MuseumsGalleriesPOS } from "@/components/MuseumsGalleriesPOS";
 import { EscapeRoomsPOS } from "@/components/EscapeRoomsPOS";
