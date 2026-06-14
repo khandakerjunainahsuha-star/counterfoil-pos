@@ -171,6 +171,8 @@ export function AmusementParksPOS({ addToCart }: { addToCart: AddToCartFn }) {
           );
         })}
       </div>
+      <BlockedNotice message={blockedMsg} onDismiss={() => setBlockedMsg(null)} />
+
 
       {tier && (
         <div>
